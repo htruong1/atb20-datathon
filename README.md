@@ -9,7 +9,7 @@ How to install Python Env:
     * `virtualenv venv -p python3.7`
     * `source venv/bin/activate`
 
-* now install the requirements by typing `pip3 install requirements.txt`
+* now install the requirements by typing `pip3 install -r requirements.txt`
 * You will need to update some libraries manually
 * navigate to
     * `venv/lib/python3.7/site-packages/flask_restplus/api.py`
