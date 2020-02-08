@@ -1,1 +1,1 @@
-web: cd backend && cd public && gunicorn app:app
+web: cd backend && gunicorn public.app
