@@ -7,7 +7,6 @@ api = Api(app)
 @api.route('/api/hello')
 class HelloWorld(Resource):
     def get(self):
-
         return {'hello': 'world'}
 
 if __name__ == '__main__':
