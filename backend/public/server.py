@@ -1,25 +1,23 @@
-from flask import Flask
+from flask import Flask, request
 from flask_restplus import Resource, Api
 from backend.utils.requestutil import atbRequests
 from backend.utils.firebaseutil import FirebaseClient
+from flask_restplus import reqparse
 
+parser = reqparse.RequestParser()
 app = Flask(__name__)
-api = Api(app)
+api = Api(app, title='ATB Hackathon API', description='Web interface version of API')
 fb_client = FirebaseClient()
 atb_requests = atbRequests()
 
-@api.route('/api/hello')
-class HelloWorld(Resource):
-    def get(self):
-        response = atb_requests.atbGet("https://api.leapos.ca/obp/v4.0.0/banks/3621ab3c23c3b1425fb18ee80a6a7ed/atms")
-        return response
+@api.route('/api/user')
+class User(Resource):
 
-@api.route('/api/bank/accounts')
-class GetCustomers(Resource):
+    @api.doc("Retrieve all data based on user_id", params={'id': 'A user ID'})
     def get(self):
-        response = atb_requests.atbGet("https://api.leapos.ca/obp/v4.0.0/banks/3621ab3c23c3b1425fb18ee80a6a7ed/accounts" )
-        return response
-
+        user_id = request.args.get("id")
+        print('Retrieving data for user: {}'.format(user_id))
+        return {'future':'data_endpoint'}
 
 if __name__ == '__main__':
     app.run(debug=True)
