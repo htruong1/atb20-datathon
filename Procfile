@@ -1,1 +1,1 @@
-web: cd backend && cdpublic && app:app
+web: cd backend && cd public && app:app
