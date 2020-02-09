@@ -64,7 +64,7 @@ mock_src = {
                     "id": "owner",
                     "short_name": "Owner",
                     "description": "Owner View",
-                    "is_public": false
+                    "is_public": False
                 }
             ],
             "account_attributes": [],
