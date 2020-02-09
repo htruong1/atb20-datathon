@@ -49,8 +49,6 @@ def get_donation_estimate(acc_id, bank_id):
 
 
 def queryForAccounts(account_ids):
-    if account_ids == "kryalls":
-        account_ids = ["4493339090308-5ce80523-4d4", "9043171164440-086540fa-449", "5090619851098-e186c945-3d4", "4052095672593-266926ce-c71", "479519821612-dac5b8c8-10c"]
     account_ids.sort()
     app_user_key = ""
     for account_id in account_ids:
@@ -82,11 +80,17 @@ class AppAccounts(Resource):
     def put(self):
         try:
             account_info = api.payload['accounts']
+            if account_info == "kryalls":
+                account_info = ["4493339090308-5ce80523-4d4", "9043171164440-086540fa-449", "5090619851098-e186c945-3d4", "4052095672593-266926ce-c71", "479519821612-dac5b8c8-10c"]
+            elif account_info == 'ewinson':
+                account_info = ["5090690952535-c1b5ed8a-998","942597818971-ceb100da-d60","5090620572706-5ed9eea5-485","4052029034692-bf1422ca-4e0","3962389777643-f90bdaf5-6e1"]
+            elif account_info == 'htruong':
+                account_info = ["3962379603916-4a5659cb-e48", "4493313863214-69a410cd-e80", "479509075209-9354a225-fd0", "4252851126039-214b0466-00f", "5532144418747-dd3de0e1-432"]
+
         except TypeError:
             abort(400, 'Invalid account json array')
         app_user_info = queryForAccounts(account_info)
-        user_ids = api.payload
-        print('Retrieving data for users: {}'.format(user_ids))
+        print('Retrieving data for users: {}'.format(account_info))
         return app_user_info
 
 
