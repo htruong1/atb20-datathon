@@ -25,14 +25,10 @@ class TransactionRequest():
     def format_data(self):
         out_data = []
         for row in self.data.get('transactions'):
-            if row.get('value').get('type') == 'WITHDRAWAL':
-                sign = '-'
-            else:
-                sign = '+'
             f_data = {
-                'description': row.get('description'),
-                'balance': row.get('new_balance'),
-                'change': '{}{}'.format(sign, row.get('value').get('amount'))
+                'description': row.get('details').get('description'),
+                'balance': row.get('details').get('new_balance').get('amount'),
+                'change': row.get('details').get('value').get('amount')
             }
             out_data.append(f_data)
         return out_data

@@ -92,9 +92,12 @@ class GetAllTransactions(Resource):
     def get(self):
         acc_id = request.args.get("acc_id")
         bank_id = request.args.get("bank_id")
-        trans_req = TransactionRequest(bank_id, acc_id)
-        trans_req.transaction_request()
-        formatted_data = trans_req.format_data()
+        try:
+            trans_req = TransactionRequest(bank_id, acc_id)
+            trans_req.transaction_request()
+            formatted_data = trans_req.format_data()
+        except TypeError as e:
+            return {"Error": "Invalid acc or bank id"}
         return formatted_data
 
 
