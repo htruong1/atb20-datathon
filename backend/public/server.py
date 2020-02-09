@@ -7,6 +7,8 @@ from flask_restplus import reqparse
 from backend.utils.transactionutil import TransactionRequest
 parser = reqparse.RequestParser()
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 api = Api(app, title='ATB Hackathon API', description='Web interface version of API')
 fb_client = FirebaseClient()
 atb_requests = atbRequests()
@@ -51,12 +53,14 @@ def queryForAccounts(account_ids):
     app_user_accounts['appUserId'] = app_user_key
     app_user_accounts['accounts'] = {}
     bank_ids = {}
-    atb_requests = atbRequests()
     for account_id in account_ids:
         response = atb_requests.atbGet("https://api.leapos.ca/obp/v4.0.0/my/banks/dc6c74fe14787f411e8c7a6c3991fe8/accounts/{}/account".format(account_id))
         if response.get('code') != 400:
             app_user_accounts['accounts'][account_id] = response
             bank_ids[response['bank_id']] = account_id
+        else:
+            print(response)
+            print("Error hitting api endpoint with id: {}".format(account_id))
     for bank_id in bank_ids.keys():
         don_est = get_donation_estimate(bank_ids[bank_id],bank_id)
         app_user_accounts['accounts']['donation_est'] = don_est
@@ -64,7 +68,7 @@ def queryForAccounts(account_ids):
     return app_user_accounts
 
 
-
+@cross_origin()
 @api.route('/api/app/user/info')
 class AppAccounts(Resource):
     resource_fields = api.model('acc_id', {
