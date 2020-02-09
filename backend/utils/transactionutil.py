@@ -9,7 +9,8 @@ class TransactionRequest():
         self.acc_id = acc_id
         self.request_url = ''
         self.data = None
-        self.request_token = atbRequests().generate_login_token()
+        atbR = atbRequests()
+        self.request_token = atbR.generate_login_token()
 
     def transaction_request(self):
         atb_headers = {
@@ -21,3 +22,17 @@ class TransactionRequest():
         self.data = data
         return self.data
 
+    def format_data(self):
+        out_data = []
+        for row in self.data.get('transactions'):
+            if row.get('value').get('type') == 'WITHDRAWAL':
+                sign = '-'
+            else:
+                sign = '+'
+            f_data = {
+                'description': row.get('description'),
+                'balance': row.get('new_balance'),
+                'change': '{}{}'.format(sign, row.get('value').get('amount'))
+            }
+            out_data.append(f_data)
+        return out_data

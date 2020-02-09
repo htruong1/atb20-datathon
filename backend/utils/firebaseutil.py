@@ -7,7 +7,6 @@ class FirebaseClient():
 
     def __init__(self):
         home_dir = expanduser("~")
-        print(os.path.join(home_dir,'firebase_key.json'))
         cred = credentials.Certificate(os.path.join(home_dir,'firebase_key.json'))
         firebase_admin.initialize_app(cred, {
             'projectId': 'atb-hackathon-2020',

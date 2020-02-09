@@ -28,7 +28,7 @@ def queryForAccounts(account_ids):
     for account_id in account_ids:
         response = atb_requests.atbGet("https://api.leapos.ca/obp/v4.0.0/my/banks/3621ab3c23c3b1425fb18ee80a6a7ed/accounts/{}/account".format(account_id))
         app_user_accounts['accounts'][account_id] = response
-    
+
     app_user_accounts['creditScore'] = 'obg'
     return app_user_accounts
 
@@ -38,17 +38,11 @@ class AppAccounts(Resource):
         account_info = api.payload['accounts']
         app_user_info = queryForAccounts(account_info)
         app_user_info['creditScore'] = account_info['creditScore']
-        return app_user_info
-        # account_ids =
-
-@api.route('/api/user')
-class User(Resource):
-
-    @api.doc("Retrieve all data based on user_id")
-    def get(self):
         user_ids = api.payload
         print('Retrieving data for user: {}'.format(user_ids))
         return mock_src
+        # account_ids =
+
 
 @api.route('/api/bank/public/accounts')
 class GetPublicAccounts(Resource):
@@ -99,8 +93,9 @@ class GetAllTransactions(Resource):
         acc_id = request.args.get("acc_id")
         bank_id = request.args.get("bank_id")
         trans_req = TransactionRequest(bank_id, acc_id)
-        trans_data = trans_req.transaction_request()
-        return trans_data
+        trans_req.transaction_request()
+        formatted_data = trans_req.format_data()
+        return formatted_data
 
 
 if __name__ == '__main__':
