@@ -35,9 +35,9 @@ def queryForAccounts(account_ids):
 @api.route('/api/app/user/info')
 class AppAccounts(Resource):
     def put(self):
-        account_info = api.payload['accounts']
-        app_user_info = queryForAccounts(account_info)
-        app_user_info['creditScore'] = account_info['creditScore']
+        # account_info = api.payload['accounts']
+        # app_user_info = queryForAccounts(account_info)
+        # app_user_info['creditScore'] = account_info['creditScore']
         user_ids = api.payload
         print('Retrieving data for user: {}'.format(user_ids))
         return mock_src
