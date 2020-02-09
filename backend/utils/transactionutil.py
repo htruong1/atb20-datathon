@@ -26,8 +26,8 @@ class TransactionRequest():
         out_data = []
         for row in self.data.get('transactions'):
             f_data = {
-                'account_id':'',
                 'type': row.get('details').get('type'),
+                'timestamp': row.get('details').get('completed'),
                 'description': row.get('details').get('description'),
                 'balance': row.get('details').get('new_balance').get('amount'),
                 'change': row.get('details').get('value').get('amount')

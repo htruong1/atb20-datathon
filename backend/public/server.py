@@ -24,9 +24,14 @@ def get_donation_estimate(acc_id, bank_id):
     except TypeError as e:
         return {"Error": "Invalid acc or bank id"}
     sum_transactions = 0
+    balance_info = []
     curr_balance = float(formatted_data[0].get('balance'))
     for transaction in formatted_data:
         next_transaction = float(transaction.get('balance'))
+        balance_info.append({
+            'balance': transaction.get('balance'),
+            'timestamp': transaction.get('timestamp')
+        })
         if next_transaction < 0:
             # 336 = 324 - (7 - -19)
             sum_transactions = sum_transactions - (curr_balance - next_transaction)
@@ -39,10 +44,13 @@ def get_donation_estimate(acc_id, bank_id):
             curr_balance = next_transaction
         else:
             continue
-    return {
+
+    donation_data = {
         "net_change": sum_transactions,
         "ending_balance": curr_balance
     }
+
+    return donation_data, balance_info
 
 
 def queryForAccounts(account_ids):
@@ -65,8 +73,9 @@ def queryForAccounts(account_ids):
             print(response)
             print("Error hitting api endpoint with id: {}".format(account_id))
     for bank_id in bank_ids.keys():
-        don_est = get_donation_estimate(bank_ids[bank_id],bank_id)
+        don_est, trans_history = get_donation_estimate(bank_ids[bank_id],bank_id)
         app_user_accounts['accounts']['donation_est'] = don_est
+        app_user_accounts['accounts']['transaction_history'] = trans_history
     app_user_accounts['creditScore'] = random.randint(0,900)
     return app_user_accounts
 
@@ -131,7 +140,7 @@ class GetCustomerById(Resource):
         response = atb_requests.atbGet("https://api.leapos.ca/obp/v4.0.0/banks/3621ab3c23c3b1425fb18ee80a6a7ed/customers/OBC5252536580-71333")
         return response
 
-@api.route('/api/transaction',doc=False)
+@api.route('/api/transaction')
 @api.doc("Retrieves all transactions from a given user", params={'acc_id': 'The account ID','bank_id':'The Bank ID'})
 class GetAllTransactions(Resource):
     def get(self):
