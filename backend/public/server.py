@@ -39,14 +39,16 @@ class AppAccounts(Resource):
         app_user_info = queryForAccounts(account_info)
         app_user_info['creditScore'] = account_info['creditScore']
         return app_user_info
-        # account_ids = 
+        # account_ids =
 
-@api.route('/api/hello')
-class HelloWorld(Resource):
+@api.route('/api/user')
+class User(Resource):
+
+    @api.doc("Retrieve all data based on user_id")
     def get(self):
-        atb_requests = atbRequests()
-        response = atb_requests.atbGet("https://api.leapos.ca/obp/v4.0.0/banks/3621ab3c23c3b1425fb18ee80a6a7ed/atms")
-        return response
+        user_ids = api.payload
+        print('Retrieving data for user: {}'.format(user_ids))
+        return mock_src
 
 @api.route('/api/bank/public/accounts')
 class GetPublicAccounts(Resource):
