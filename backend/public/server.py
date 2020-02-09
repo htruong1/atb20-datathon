@@ -8,11 +8,13 @@ from backend.utils.requestutil import atbRequests
 from backend.utils.firebaseutil import FirebaseClient
 from flask_restplus import reqparse
 from backend.utils.transactionutil import TransactionRequest
+
 parser = reqparse.RequestParser()
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 api = Api(app, title='ATB Hackathon API', description='Web interface version of API')
+app.run(ssl_context='adhoc')
 fb_client = FirebaseClient()
 atb_requests = atbRequests()
 
