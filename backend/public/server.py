@@ -1,5 +1,8 @@
 from flask import Flask, request, abort
 import random
+from flask_cors import CORS, cross_origin
+import firebase_admin
+print(firebase_admin.__file__)
 from flask_restplus import Resource, Api, fields
 from backend.utils.requestutil import atbRequests
 from backend.utils.firebaseutil import FirebaseClient
