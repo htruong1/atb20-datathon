@@ -1,11 +1,13 @@
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
-
+from os.path import expanduser
+import os
 class FirebaseClient():
 
     def __init__(self):
-        cred = credentials.Certificate("/Users/ima/dev/random-files/firebase_key.json")
+        home_dir = expanduser("~")
+        cred = credentials.Certificate(os.path.join(home_dir,'firebase_key.json'))
         firebase_admin.initialize_app(cred, {
             'projectId': 'atb-hackathon-2020',
         })
