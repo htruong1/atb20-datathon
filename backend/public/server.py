@@ -3,6 +3,7 @@ from flask_restplus import Resource, Api
 from backend.utils.requestutil import atbRequests
 from backend.utils.firebaseutil import FirebaseClient
 from flask_restplus import reqparse
+from backend.public.mock_user_data import mock_src
 
 parser = reqparse.RequestParser()
 app = Flask(__name__)
@@ -17,7 +18,7 @@ class User(Resource):
     def get(self):
         user_id = request.args.get("id")
         print('Retrieving data for user: {}'.format(user_id))
-        return {'future':'data_endpoint'}
+        return mock_src
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=80)
